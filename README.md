@@ -1,10 +1,10 @@
+# Proyecto Web de Dimex
+
+Este proyecto es una aplicación web desarrollada como parte de un trabajo universitario para el curso de Analitica de Datos y Herramientas de Inteligencia Artificial en el TEC (Tecnologico de Monterrey). La aplicación tiene como objetivo proporcionar una plataforma en línea para la empresa Dimex, facilitando la gestión y visualización de sus clientes adeudados.
+
 # Web App con Streamlit
 
 Este es un pequeño proyecto para aprender a usar [Streamlit](https://streamlit.io/).
-
-## Descripción
-
-Esta aplicación web está diseñada para demostrar las capacidades de Streamlit y cómo se puede utilizar para crear aplicaciones web interactivas de manera rápida y sencilla.
 
 ## Instalación
 
