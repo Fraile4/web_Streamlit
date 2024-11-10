@@ -30,7 +30,10 @@ def validarPuesto(usuario):
         str: puesto del usuario
     """    
     dfusuarios = pd.read_csv('usuarios.csv')
-    puesto = dfusuarios[dfusuarios['usuario']==usuario]['puesto'].values[0]
+    if 'puesto' in dfusuarios.columns:
+        puesto = dfusuarios[dfusuarios['usuario'] == usuario]['puesto'].values[0]
+    else:
+        puesto = False
     return puesto
 
 def generarLogin():

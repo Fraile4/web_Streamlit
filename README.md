@@ -10,11 +10,11 @@ Esta aplicación web está diseñada para demostrar las capacidades de Streamlit
 
 1. Clona este repositorio:
     ```bash
-    git clone https://github.com/Fraile4/tu_repositorio.git
+    git clone https://github.com/Fraile4/web_Streamlit.git
     ```
 2. Navega al directorio del proyecto:
     ```bash
-    cd tu_repositorio
+    cd web_Streamlit
     ```
 3. Instala las dependencias:
     ```bash
@@ -27,4 +27,3 @@ Para ejecutar la aplicación, usa el siguiente comando:
 ```bash
 streamlit run app.py
 ```
-
