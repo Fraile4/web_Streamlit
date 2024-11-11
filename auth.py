@@ -3,8 +3,11 @@ import pandas as pd
 
 import menu as menu
 
+# Constante para la ruta del archivo CSV de usuarios
+USUARIOS_CSV_PATH = './data/usuarios.csv'
+
 # Validación simple de usuario y clave con un archivo csv
-def validarUsuario(usuario,clave):    
+def validarUsuario(usuario, clave):    
     """Permite la validación de usuario y clave
 
     Args:
@@ -14,8 +17,8 @@ def validarUsuario(usuario,clave):
     Returns:
         bool: True usuario valido, False usuario invalido
     """    
-    dfusuarios = pd.read_csv('usuarios.csv')
-    if len(dfusuarios[(dfusuarios['usuario']==usuario) & (dfusuarios['password']==clave)])>0:
+    dfusuarios = pd.read_csv(USUARIOS_CSV_PATH)
+    if len(dfusuarios[(dfusuarios['usuario'] == usuario) & (dfusuarios['password'] == clave)]) > 0:
         return True
     else:
         return False
@@ -29,7 +32,7 @@ def validarPuesto(usuario):
     Returns:
         str: puesto del usuario
     """    
-    dfusuarios = pd.read_csv('usuarios.csv')
+    dfusuarios = pd.read_csv(USUARIOS_CSV_PATH)
     if 'puesto' in dfusuarios.columns:
         puesto = dfusuarios[dfusuarios['usuario'] == usuario]['puesto'].values[0]
     else:
@@ -46,17 +49,17 @@ def generarLogin():
         # Cargamos el formulario de login       
         with st.form('frmLogin'):
             parUsuario = st.text_input('Usuario')
-            parPassword = st.text_input('Password',type='password')
-            btnLogin=st.form_submit_button('Ingresar',type='primary')
+            parPassword = st.text_input('Password', type='password')
+            btnLogin = st.form_submit_button('Ingresar', type='primary')
             if btnLogin:
-                if validarUsuario(parUsuario,parPassword):
-                    st.session_state['usuario'] =parUsuario
-                    st.session_state['puesto'] =validarPuesto(parUsuario)
+                if validarUsuario(parUsuario, parPassword):
+                    st.session_state['usuario'] = parUsuario
+                    st.session_state['puesto'] = validarPuesto(parUsuario)
                     # Si el usuario es correcto reiniciamos la app para que se cargue el menú
                     st.rerun()
                 else:
                     # Si el usuario es invalido, mostramos el mensaje de error
-                    st.error("Usuario o clave inválidos",icon=":material/gpp_maybe:")                    
+                    st.error("Usuario o clave inválidos", icon=":material/gpp_maybe:")                    
 
 def generarRegistro():
     """Genera la ventana de registro de nuevos usuarios
@@ -69,7 +72,7 @@ def generarRegistro():
         parPuesto = {'Puerta a Puerta': 'PaP', 'Call Center': 'CC', 'Agencia Externa': 'AE'}.get(parPuesto, parPuesto)
         btnRegistro = st.form_submit_button('Registrar', type='primary')
         if btnRegistro:
-            dfusuarios = pd.read_csv('usuarios.csv')
+            dfusuarios = pd.read_csv(USUARIOS_CSV_PATH)
             if parUsuario in dfusuarios['usuario'].values:
                 st.error("El usuario ya existe", icon=":material/gpp_maybe:")
             else:
@@ -80,7 +83,7 @@ def generarRegistro():
                     'puesto': [parPuesto],
                 })
                 dfusuarios = pd.concat([dfusuarios, nuevo_usuario], ignore_index=True)
-                dfusuarios.to_csv('usuarios.csv', index=False)
+                dfusuarios.to_csv(USUARIOS_CSV_PATH, index=False)
                 st.success("Usuario registrado exitosamente", icon=":material/check:")
     
     # Botón para cerrar la sesión fuera del formulario

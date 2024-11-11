@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 
+# Constante para la ruta del archivo CSV de usuarios
+USUARIOS_CSV_PATH = './data/usuarios.csv'
+
 def generarMenu(usuario):
     """Genera el menú dependiendo del usuario
 
@@ -9,7 +12,7 @@ def generarMenu(usuario):
     """        
     with st.sidebar:
         # Cargamos la tabla de usuarios
-        dfusuarios = pd.read_csv('usuarios.csv')
+        dfusuarios = pd.read_csv(USUARIOS_CSV_PATH)
         # Filtramos la tabla de usuarios
         dfUsuario =dfusuarios[(dfusuarios['usuario']==usuario)]
         # Cargamos el nombre del usuario
@@ -21,7 +24,7 @@ def generarMenu(usuario):
         st.subheader("Tableros")
         st.page_link("pages/page1.py", label="Interacción", icon=":material/group:")
         st.page_link("pages/page2.py", label="Aviso", icon=":material/sell:")
-        #st.page_link("pages/page3.py", label="Personal", icon=":material/group:")    
+        st.page_link("pages/page3.py", label="ChatBot", icon="🤖")    
         # Botón para cerrar la sesión
         btnSalir=st.button("Salir")
         if btnSalir:

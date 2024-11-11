@@ -1,12 +1,13 @@
 import pandas as pd
 
 # Ruta del archivo CSV
-CSV_FILE_PATH = './df.csv'
+CSV_FILE_PATH = './data/df.csv'
 
 # Cargar datos desde el archivo CSV
 def cargar_datos():
     df = pd.read_csv(CSV_FILE_PATH)
     df.set_index('Solicitud_id', inplace=True)
+    df = df[df['Atendido'] == 0]
     return df
 
 def mostrar_datosPaP():
@@ -58,6 +59,30 @@ def guardar_datos(row, tp, resultado, promesa):
     
     # Convertir la lista de diccionarios de nuevo a una cadena JSON
     df.at[row, 'Interacciones'] = str(interacciones)
+
+    # Cambiar la variable Atendido de 0 a 1
+    df.at[row, 'Atendido'] = 1
     
     # Guardar el DataFrame actualizado en el archivo CSV
     df.to_csv(CSV_FILE_PATH, index=True)
+
+
+def añadir_incidencia(selected_row, incidencia):
+    df = cargar_datos()
+    
+    # Convertir la cadena JSON a una lista de incidencias
+    incidencias = eval(df.at[selected_row, 'Incidencia']) if 'Incidencia' in df.columns and pd.notna(df.at[selected_row, 'Incidencia']) else []
+    
+    # Añadir la nueva incidencia
+    incidencias.append(incidencia)
+    
+    # Convertir la lista de incidencias de nuevo a una cadena JSON
+    df.at[selected_row, 'Incidencia'] = str(incidencias)
+    
+    # Guardar el DataFrame actualizado en el archivo CSV
+    df.to_csv(CSV_FILE_PATH, index=True)
+
+def mostrar_incidencia(selected_row):
+    df = cargar_datos()
+    incidencias = eval(df.at[selected_row, 'Incidencia'])
+    return '\n\rIncidencia: '.join([f"{i+1}. {incidencia}" for i, incidencia in enumerate(incidencias)])

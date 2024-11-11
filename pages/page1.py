@@ -17,6 +17,10 @@ if 'usuario' in st.session_state:
     # Mostrar la fila seleccionada
     st.write('Fila seleccionada:')
     st.write(df.loc[selected_row].to_frame().T)
+
+    if st.session_state['puesto'] != 'PaP':
+        if st.button('Mandar SMS'):
+            st.info('SMS enviado exitosamente')
     
     # Botón para abrir el formulario de detalles del cliente
     with st.form(key='detalle_cliente_form', clear_on_submit=True):
@@ -26,6 +30,10 @@ if 'usuario' in st.session_state:
         
         # Botón de envío
         submit_button = st.form_submit_button(label='Guardar')
+
+        # Mostrar advertencia si 'Incidencia' no está vacía
+        if df.loc[selected_row, 'Incidencia'] != '[]':
+            st.warning(f"Incidencia: {lg.mostrar_incidencia(selected_row)}")
     
         # Lógica de guardado al enviar el formulario
         if submit_button:
