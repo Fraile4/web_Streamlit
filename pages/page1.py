@@ -13,10 +13,19 @@ if 'usuario' in st.session_state:
     
     # Agregar un selectbox para elegir una fila
     selected_row = st.selectbox('Seleccione una fila:', df.index)
+    client_df = lg.cargar_datosCliente(selected_row)
 
-    # Mostrar la fila seleccionada
-    st.write('Fila seleccionada:')
-    st.write(df.loc[selected_row].to_frame().T)
+    # Mostrar la foto correspondiente a la fila seleccionada y la fila en formato vertical en paralelo
+    col1, col2 = st.columns(2)
+
+    with col1:
+        foto_path = f"data/Fotos/{df.loc[selected_row, 'Foto']}"
+        st.image(foto_path, caption='Foto del cliente', width=300)
+
+    with col2:
+        #st.write('**Fila seleccionada:**')
+        for column in client_df.columns:
+            st.write(f"\n{column}: {client_df.at[selected_row, column]}")
 
     if st.session_state['puesto'] != 'PaP':
         if st.button('Mandar SMS'):

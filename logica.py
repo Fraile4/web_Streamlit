@@ -10,6 +10,31 @@ def cargar_datos():
     df = df[df['Atendido'] == 0]
     return df
 
+def cargar_datosCliente(index):
+    df = cargar_datos()
+    df = df.loc[[index]]
+    columns_to_select = ['Numero_tlf', 'Direccion']
+    atraso = {
+        'atraso_1_29': 'Atraso de 1 mes',
+        'atraso_30_59': 'Atraso de 2 meses',
+        'atraso_60_89': 'Atrsa de 3 meses',
+        'atraso_90_119': 'Atraso de 4 meses',
+        'atraso_120_149': 'Atraso de 5 meses',
+        'atraso_150_179': 'Atraso de 6 meses',
+        'atraso_180_más': 'Ataso de 7 meses o más',
+    }
+    Total_Interecciones = len(eval(df.at[index, 'Interacciones']))
+    interacciones = eval(df.loc[index, 'Interacciones'])
+    Ultima_Interaccion = interacciones[-1] if Total_Interecciones > 0 else None
+    atraso = df['Nivel_Atraso'].map(atraso).loc[index]
+
+    existing_columns = [col for col in columns_to_select if col in df.columns]
+    new_df = df[existing_columns]
+    new_df['Total Interacciones'] = Total_Interecciones
+    new_df['Ultima Interaccion'] = Ultima_Interaccion
+    new_df['Nivel Atraso'] = atraso
+    return new_df
+
 def mostrar_datosPaP():
     df = cargar_datos()
     columns_to_select = ['Numero_tlf', 'Direccion', 'Interacciones']
